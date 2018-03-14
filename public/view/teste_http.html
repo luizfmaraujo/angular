@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="listatelefonica">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            angular
+                .module('meuApp')
+                .controller('MeuController', MeuController);
+
+            MeuController.$inject = ['MeuService']; // Injetamos o service
+
+            /* @ngInject */
+            //Injetamos o service
+            function MeuController(MeuService) {
+                var vm = this;
+
+                MeuService.fazerAlgumaCoisa(); // Vai executar o console.log('Fiz Alguma coisa!')
+
+            }
+        })();
+    </script>
+</head>
+
+</html>

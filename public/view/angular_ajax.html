@@ -1,0 +1,59 @@
+<html ng-app="listatelefonica">
+
+<head>
+    <title>teste angular</title>
+    <script src="angular-1.6.9/angular.js"></script>
+    <script>
+        angular.module("listatelefonica", []);
+        angular.module('listatelefonica', []).controller('Control', function ($scope, $http) {
+            $scope.app = "luiz";
+            $scope.contatos = [];
+            $scope.idiomas = [
+                { nome: "PT", lingua: "portugues" },
+                { nome: "EN", lingua: "inglês" }
+            ]
+            var carregarContatos = function () {
+                $http.get("http://localhost/contatos").then(function (response) {
+                    $scope.contatos = response.data;
+                });
+            }
+            $scope.adicionar = function (contato) {
+                $scope.contatos.push(contato);
+                delete $scope.contato;
+            };
+            carregarContatos();
+        });
+    </script>
+</head>
+<input type="text" ng-model="criterioDeBusca">
+
+<body ng-controller="Control">
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>País</th>
+            <th>Idioma</th>
+        </tr>
+        <tr ng-repeat="contato in contatos| filter:criterioDeBusca |orderBy:'country'">
+            <td>{{contato.name}}</td>
+            <td>{{contato.country}}</td>
+            <td>{{contato.idioma.nome}}</td>
+        </tr>
+    </table>
+    <form name="cadastro">
+        <input type="text" name="nome" ng-model="contato.name">
+        <input type="text" name="country" ng-model="contato.country" ng-required="true">
+        <select ng-model="contato.idioma" ng-options="idioma.nome for idioma in idiomas"></select>
+        <button ng-click="adicionar(contato)">adicionar</button>
+    </form>
+    <div ng-show="cadastro.country.$invalid">
+        Voce deve digitar o campo pais.
+    </div>
+    <div ng-messages="cadastro.nome.$error">
+        <div ng-message="pattern">
+            Voce deve digitar o campo nome.
+        </div>
+    </div>
+</body>
+
+</html>

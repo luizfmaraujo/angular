@@ -1,0 +1,76 @@
+<html ng-app="listatelefonica">
+
+<head>
+    <title>teste angular</title>
+    <script src="angular-1.6.9/angular.js"></script>
+    <script src="angular-1.6.9/angular-route.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/lista-controle.js"></script>
+    <script src="js/services/contatoAPIservice.js"></script>
+    <script src="ctst/value.js"></script>
+    <script src="filters/nameFilter.js"></script>
+    <script src="js/directives/uaiAlertDirective.js"></script>
+    <script src="js/directives/uaiDateDirective.js"></script>
+    <script src="js/directives/ui.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<input type="text" ng-model="criterioDeBusca">
+
+<body ng-controller="listacontrole">
+    <ui-alert title="Opa problemao"></ui-alert>
+    <ui-alert title="Opa problema 2"></ui-alert>
+    <ui-accordions>
+        <ui-accordion title="Accordion 1">
+            asfasfasfasfas asfasfasfasfas asfasfasfasfas1
+        </ui-accordion>
+        <ui-accordion title="Accordion 2">
+            asfasfasfasfas asfasfasfasfas asfasfasfasfas 2
+        </ui-accordion>
+        <ui-accordion title="Accordion 3">
+                asfasfasfasfas asfasfasfasfas asfasfasfasfas 3
+            </ui-accordion>
+            <ui-accordion title="Accordion 4">
+                asfasfasfasfas asfasfasfasfas asfasfasfasfas 4
+            </ui-accordion>
+    </ui-accordions>
+
+    <div class="ui-alert">
+        <div class="ui-alert_title">
+            Opa aconteceu um problema !!!
+        </div>
+    </div>
+    <table>
+        <tr>
+            <th>Data</th>
+            <th>Nome</th>
+            <th>País</th>
+            <th>Idioma</th>
+        </tr>
+        <tr ng-repeat="contato in contatos| filter:criterioDeBusca |orderBy:'country'">
+            <td>{{contato.datacad | date}}</td>
+            <td>{{contato.name | name}}</td>
+            <td>{{contato.country}}</td>
+            <td>{{contato.idioma.nome}}</td>
+        </tr>
+    </table>
+    <form name="cadastro">
+        <input type="text" name="data" ng-model="contato.datacad" ng-required="true" ui-date/>
+        <input type="text" name="nome" ng-model="contato.name">
+        <input type="text" name="country" ng-model="contato.country" ng-required="true">
+        <select ng-model="contato.idioma" ng-options="idioma.nome for idioma in idiomas"></select>
+        <button ng-click="adicionar(contato)">adicionar</button>
+    </form>
+    <div ng-show="cadastro.country.$invalid">
+        Voce deve digitar o campo pais.
+    </div>
+    <div ng-messages="cadastro.nome.$error">
+        <div ng-message="pattern">
+            Voce deve digitar o campo nome.
+        </div>
+    </div>
+    <div id="footer" ng-include="'view/footer.html'">
+    </div>
+</body>
+
+</html>
